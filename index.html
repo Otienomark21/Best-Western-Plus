@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="google-site-verification" content="41Gz3sSvRIizXHCLxsQQiQT8OFWmxDC1HdnjM4USUIQ" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Best Western Plus Meridian Hotel | Premium CBD Accommodation</title>
+    <meta name="description" content="Experience premium luxury at the Best Western Plus Meridian Hotel, located in the heart of Nairobi CBD. Enjoy soundproof rooms, rooftop pool, and state-of-the-art conferencing.">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.bwplusmeridian.com/">
+    <meta property="og:title" content="Best Western Plus Meridian Hotel Nairobi">
+    <meta property="og:description" content="Experience premium luxury, soundproof rooms, and state-of-the-art conferencing in the heart of Nairobi CBD.">
+    <meta property="og:image" content="https://www.bwplusmeridian.com/images/rooftop.jpg">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="canonical" href="https://www.bwplusmeridian.com/index.html" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:wght@700&family=Great+Vibes&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+
+    <style>
+        :root {
+            --bw-maroon: #85042d; 
+            --bw-maroon-dark: #85042d; 
+            --bw-maroon-darker: #85042d; 
+            --bw-white: #FFFFFF;
+        }
+
+        body { font-family: 'Montserrat', sans-serif; scroll-behavior: smooth; background-color: var(--bw-white); color: #1a1a1a; }
+        h1, h2, h3, h4, h5 { font-family: 'Playfair Display', serif; }
+        .font-signature { font-family: 'Great Vibes', cursive; }
+
+        #navbar { transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+        .nav-transparent { background-color: transparent !important; border-bottom-color: transparent !important; backdrop-filter: none !important; }
+        .nav-transparent .nav-link, .nav-transparent .mobile-menu-btn { color: white !important; }
+        .nav-transparent .btn-nav-reserve { background-color: white !important; color: var(--bw-maroon) !important; border: 1px solid white; }
+        .nav-transparent .btn-nav-reserve:hover { background-color: var(--bw-maroon) !important; color: white !important; border-color: var(--bw-maroon); }
+
+        .nav-scrolled { background-color: rgba(255, 255, 255, 0.98) !important; border-bottom-color: #f1f1f1 !important; backdrop-filter: blur(8px) !important; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); }
+        .nav-scrolled .nav-link, .nav-scrolled .mobile-menu-btn { color: #6b7280 !important; }
+        .nav-scrolled .nav-link:hover, .nav-scrolled .mobile-menu-btn:hover { color: var(--bw-maroon) !important; }
+        .nav-scrolled .btn-nav-reserve { background-color: var(--bw-maroon); color: white; border: 1px solid transparent; }
+        .nav-scrolled .btn-nav-reserve:hover { background-color: var(--bw-maroon-dark); }
+
+        .hover-underline { position: relative; padding-bottom: 2px; }
+        .hover-underline::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -4px; left: 0; background-color: currentColor; transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .hover-underline:hover::after { width: 100%; }
+
+        .text-bw-maroon { color: var(--bw-maroon); }
+        .bg-bw-maroon { background-color: var(--bw-maroon); }
+        .border-bw-maroon { border-color: var(--bw-maroon); }
+
+        .btn-maroon { background-color: var(--bw-maroon); color: white; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); text-transform: uppercase; letter-spacing: 0.15em; font-weight: 700; border: 1px solid transparent; }
+        .btn-maroon:hover { background-color: var(--bw-maroon-dark); transform: translateY(-3px) scale(1.02); box-shadow: 0 12px 20px -5px #85042d; }
+        
+        .btn-outline-maroon { border: 2px solid var(--bw-maroon); color: var(--bw-maroon); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); text-transform: uppercase; letter-spacing: 0.15em; font-weight: 700; background: transparent; }
+        .btn-outline-maroon:hover { background-color: var(--bw-maroon); color: white; transform: translateY(-3px) scale(1.02); box-shadow: 0 12px 20px -5px #85042d; }
+
+        .section-accent::after { content: ''; display: block; width: 50px; height: 2px; background: var(--bw-maroon); margin: 15px auto 0; }
+        .section-accent-left::after { content: ''; display: block; width: 50px; height: 2px; background: var(--bw-maroon); margin: 15px 0 0 0; }
+
+        .img-zoom { transition: transform 0.7s ease; }
+        .img-zoom:hover { transform: scale(1.05); }
+
+        /* Slideshow */
+        .hero-slideshow { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
+        .slide { position: absolute; inset: 0; opacity: 0; transition: opacity 1.5s ease-in-out, transform 8s linear; transform: scale(1.05); background-size: cover; background-position: center; }
+        .slide.active { opacity: 1; transform: scale(1); }
+
+        /* Masonry Grid Setup */
+        .masonry-grid { display: grid; gap: 1rem; grid-auto-rows: 200px; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+        @media (min-width: 1024px) {
+            .masonry-grid { grid-template-columns: repeat(4, 1fr); grid-auto-rows: 250px; }
+            .col-span-2 { grid-column: span 2; }
+            .row-span-2 { grid-row: span 2; }
+        }
+
+        /* Parallax Background */
+        .parallax-bg { background-attachment: fixed; background-position: center; background-repeat: no-repeat; background-size: cover; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <nav class="fixed w-full z-50 nav-transparent border-b transition-all duration-300" id="navbar">
+        <div class="absolute inset-0 bg-gradient-to-b from-black/70 to-transparent -z-10 transition-opacity duration-300" id="nav-gradient"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="flex justify-between h-24 items-center transition-all duration-300" id="nav-container">
+                
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="index.html">
+                     <img src="images/LOGO.PNG" alt="Best Western Plus Meridian" class="h-12 md:h-16 w-auto object-contain block m-0 p-0 leading-none rounded-full" id="main-logo">
+                    </a>
+                </div>
+
+                <div class="hidden lg:flex items-center space-x-6 text-[10px] font-bold uppercase tracking-[0.2em]">
+                    <a href="index.html" class="nav-link hover-underline transition-colors duration-300 text-bw-maroon">Home</a>
+                    <span class="text-white/30 select-none transition-colors duration-300 nav-separator">/</span>
+                    <a href="rooms.html" class="nav-link hover-underline transition-colors duration-300">Rooms</a>
+                    <span class="text-white/30 select-none transition-colors duration-300 nav-separator">/</span>
+                    <a href="meetings.html" class="nav-link hover-underline transition-colors duration-300">Conferencing</a>
+                    <span class="text-white/30 select-none transition-colors duration-300 nav-separator">/</span>
+                    <a href="dining.html" class="nav-link hover-underline transition-colors duration-300">Dining</a>
+                    <span class="text-white/30 select-none transition-colors duration-300 nav-separator">/</span>
+                    <a href="amenities.html" class="nav-link hover-underline transition-colors duration-300">Wellness</a>
+                    <span class="text-white/30 select-none transition-colors duration-300 nav-separator">/</span>
+                    <a href="faq.html" class="nav-link hover-underline transition-colors duration-300">FAQ</a>
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <a href="#booking" class="btn-nav-reserve px-6 md:px-8 py-3 rounded-sm text-[9px] md:text-[10px] font-bold transition-all duration-400 shadow-sm uppercase tracking-widest scale-100 hover:scale-105 active:scale-95 backdrop-blur-sm">Reserve Now</a>
+                    
+                    <button id="mobileMenuBtn" class="lg:hidden mobile-menu-btn focus:outline-none p-2" aria-label="Open Menu">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </nav>
+
+    <div id="mobileOverlay" class="fixed inset-0 bg-black/95 z-[60] flex flex-col items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 backdrop-blur-md">
+        <button id="closeMenuBtn" aria-label="Close Menu" class="absolute top-8 right-6 text-white/70 hover:text-white focus:outline-none">
+            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
+        
+        <div class="flex flex-col items-center space-y-8 text-white font-serif text-2xl tracking-widest">
+            <a href="index.html" class="hover:text-bw-maroon transition-colors text-bw-maroon">Home</a>
+            <a href="rooms.html" class="hover:text-bw-maroon transition-colors">Rooms & Suites</a>
+            <a href="meetings.html" class="hover:text-bw-maroon transition-colors">Conferencing</a>
+            <a href="dining.html" class="hover:text-bw-maroon transition-colors">Dining</a>
+            <a href="amenities.html" class="hover:text-bw-maroon transition-colors">Wellness & Pool</a>
+            <a href="faq.html" class="hover:text-bw-maroon transition-colors">Guest FAQ</a>
+        </div>
+    </div>
+
+    <header class="relative h-screen flex flex-col justify-center text-white pt-20">
+        <div class="absolute inset-0 bg-black/50 z-10"></div>
+        <div class="hero-slideshow">
+            <div class="slide active" style="background-image: url('images/bg1.webp');" role="img" aria-label="Best Western Plus Meridian Hotel exterior view"></div>
+            <div class="slide" style="background-image: url('images/bg3.jpg');" role="img" aria-label="Hotel lobby and modern reception area"></div>
+            <div class="slide" style="background-image: url('images/bg5.jpg');" role="img" aria-label="Luxurious hotel suite bedroom"></div>
+            <div class="slide" style="background-image: url('images/bg2.avif');" role="img" aria-label="Elegant dining area"></div>
+        </div>
+
+        <div class="relative z-20 max-w-7xl mx-auto px-4 w-full text-center">
+            <h2 class="text-xs md:text-sm font-bold mb-4 tracking-[0.5em] uppercase opacity-90">Nairobi's Premium Landmark</h2>
+            <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight">Where Excellence <br/><span class="italic font-light">Meets Comfort</span></h1>
+            <p class="text-base md:text-lg font-light max-w-2xl mx-auto mb-8 leading-relaxed">Experience unparalleled hospitality, sophisticated conferencing, and world-class dining right in the heart of Nairobi CBD.</p>
+            
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-6 mt-8">
+                <a href="tel:+254798492352" class="flex items-center gap-3 px-6 py-3 bg-black/40 backdrop-blur-md border border-white/20 rounded-sm text-xs font-bold uppercase tracking-widest hover:bg-[#85042d] hover:border-[#85042d] transition-all duration-300">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                    +254 798 492 352
+                </a>
+                <a href="mailto:reservation@bwplusmeridian.com" class="flex items-center gap-3 px-6 py-3 bg-black/40 backdrop-blur-md border border-white/20 rounded-sm text-xs font-bold lowercase tracking-widest hover:bg-[#85042d] hover:border-[#85042d] transition-all duration-300">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                    reservation@bwplusmeridian.com
+                </a>
+            </div>
+        </div>
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 flex space-x-4">
+            <button onclick="goToSlide(0)" class="slide-dot w-2 h-2 rounded-full bg-white active transition-all" aria-label="Go to slide 1"></button>
+            <button onclick="goToSlide(1)" class="slide-dot w-2 h-2 rounded-full bg-white/30 transition-all" aria-label="Go to slide 2"></button>
+            <button onclick="goToSlide(2)" class="slide-dot w-2 h-2 rounded-full bg-white/30 transition-all" aria-label="Go to slide 3"></button>
+            <button onclick="goToSlide(3)" class="slide-dot w-2 h-2 rounded-full bg-white/30 transition-all" aria-label="Go to slide 4"></button>
+        </div>
+    </header>
+
+    <section class="py-32 bg-white">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col lg:flex-row items-center gap-16">
+            <div class="w-full lg:w-1/2">
+                <div class="relative p-4 before:absolute before:-inset-4 before:border-2 before:border-bw-maroon/20 before:rounded-sm z-0">
+                    <div class="h-[500px] bg-gray-200 overflow-hidden rounded-sm relative z-10 shadow-lg">
+                        <img src="images/bg3.jpg" alt="Hotel Lobby seating area" class="w-full h-full object-cover img-zoom">
+                    </div>
+                </div>
+            </div>
+            <div class="w-full lg:w-1/2 lg:pl-8">
+                <h4 class="text-bw-maroon text-[10px] font-bold uppercase tracking-[0.3em] mb-4">A Note from Leadership</h4>
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-8 font-playfair leading-tight">Welcome to an Oasis in the City.</h2>
+                <p class="text-gray-600 leading-relaxed text-sm mb-6">
+                    Standing proud on Murang'a Road, the Best Western Plus Meridian Hotel was designed with one distinct philosophy: to blend international luxury standards with the warm, authentic hospitality that Kenya is globally renowned for.
+                </p>
+                <p class="text-gray-600 leading-relaxed text-sm mb-10">
+                    Whether you are arriving for a major corporate summit, a weekend getaway, or seeking a quiet, soundproofed urban retreat, our property and my entire team are meticulously prepared to ensure your stay exceeds every expectation. We look forward to hosting you.
+                </p>
+                <div>
+                    <h5 class="text-3xl text-gray-900 font-signature mb-1">General Manager</h5>
+                    <p class="text-[9px] uppercase tracking-widest text-gray-400 font-bold">Best Western Plus Meridian</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 bg-[#666666] text-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <h4 class="text-bw-maroon-light font-bold text-[10px] uppercase tracking-[0.3em] mb-4">Why Choose Us</h4>
+                <h2 class="text-3xl md:text-5xl font-bold mb-6 font-playfair">The Meridian Standard</h2>
+                <p class="text-gray-300 max-w-2xl mx-auto text-sm leading-relaxed">We do not just offer rooms; we offer guarantees. Our infrastructure is engineered for absolute guest comfort and elite corporate productivity.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+                <div class="flex flex-col text-center items-center group">
+                    <div class="w-16 h-16 rounded-full border border-gray-500 flex items-center justify-center mb-6 group-hover:border-bw-maroon group-hover:bg-bw-maroon transition-all duration-300">
+                        <svg class="w-6 h-6 text-gray-200 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                    </div>
+                    <h3 class="text-lg font-bold mb-3">Acoustic Soundproofing</h3>
+                    <p class="text-gray-300 text-xs leading-relaxed">Sleep deeply in the heart of the CBD. Every room features advanced acoustic sealing to block out the city noise completely.</p>
+                </div>
+                <div class="flex flex-col text-center items-center group">
+                    <div class="w-16 h-16 rounded-full border border-gray-500 flex items-center justify-center mb-6 group-hover:border-bw-maroon group-hover:bg-bw-maroon transition-all duration-300">
+                        <svg class="w-6 h-6 text-gray-200 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                    </div>
+                    <h3 class="text-lg font-bold mb-3">24/7 Security Detail</h3>
+                    <p class="text-gray-300 text-xs leading-relaxed">Peace of mind is paramount. Featuring secure basement parking, electronic key-card access, and round-the-clock physical security.</p>
+                </div>
+                <div class="flex flex-col text-center items-center group">
+                    <div class="w-16 h-16 rounded-full border border-gray-500 flex items-center justify-center mb-6 group-hover:border-bw-maroon group-hover:bg-bw-maroon transition-all duration-300">
+                        <svg class="w-6 h-6 text-gray-200 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"></path></svg>
+                    </div>
+                    <h3 class="text-lg font-bold mb-3">Fibre-Optic Connectivity</h3>
+                    <p class="text-gray-300 text-xs leading-relaxed">Never miss a meeting. Our dedicated high-speed fibre network ensures flawless video conferencing from your room or our boardrooms.</p>
+                </div>
+                <div class="flex flex-col text-center items-center group">
+                    <div class="w-16 h-16 rounded-full border border-gray-500 flex items-center justify-center mb-6 group-hover:border-bw-maroon group-hover:bg-bw-maroon transition-all duration-300">
+                        <svg class="w-6 h-6 text-gray-200 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
+                    </div>
+                    <h3 class="text-lg font-bold mb-3">Premium Comfort</h3>
+                    <p class="text-gray-300 text-xs leading-relaxed">Indulge in 500-thread-count Egyptian cotton linens, blackout curtains, and luxury bath amenities designed to rejuvenate.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4 section-accent">Our Offerings</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                <div class="bg-white rounded-sm shadow-md overflow-hidden group">
+                    <div class="h-64 overflow-hidden relative bg-gray-200">
+                        <img src="images/family suite.avif" alt="Luxury accommodation family suite" class="w-full h-full object-cover img-zoom">
+                    </div>
+                    <div class="p-8 text-center border border-t-0 border-gray-100">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4 font-playfair">Accommodation</h3>
+                        <p class="text-gray-500 text-sm leading-relaxed mb-6">Designed for absolute comfort. Every room features acoustic soundproofing, blackout curtains, and luxury bedding.</p>
+                        <a href="rooms.html" class="text-[10px] font-black text-bw-maroon uppercase tracking-widest hover-underline pb-1">View Rooms</a>
+                    </div>
+                </div>
+                <div class="bg-white rounded-sm shadow-md overflow-hidden group">
+                    <div class="h-64 overflow-hidden relative bg-gray-200">
+                        <img src="images/khyber.jpg" alt="State-of-the-art conferencing hall setup" class="w-full h-full object-cover img-zoom">
+                    </div>
+                    <div class="p-8 text-center border border-t-0 border-gray-100">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4 font-playfair">Conferencing</h3>
+                        <p class="text-gray-500 text-sm leading-relaxed mb-6">Host flawless events in our state-of-the-art halls, accommodating up to 350 delegates with high-speed fiber internet.</p>
+                        <a href="meetings.html" class="text-[10px] font-black text-bw-maroon uppercase tracking-widest hover-underline pb-1">Plan Your Event</a>
+                    </div>
+                </div>
+                <div class="bg-white rounded-sm shadow-md overflow-hidden group">
+                    <div class="h-64 overflow-hidden relative bg-gray-200">
+                        <img src="images/restaurant.jpg" alt="Rendezvous Restaurant dining experience" class="w-full h-full object-cover img-zoom">
+                    </div>
+                    <div class="p-8 text-center border border-t-0 border-gray-100">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4 font-playfair">Culinary Experience</h3>
+                        <p class="text-gray-500 text-sm leading-relaxed mb-6">Indulge in our Rendezvous Restaurant, offering an exquisite fusion of authentic Kenyan flavors and continental dining.</p>
+                        <a href="dining.html" class="text-[10px] font-black text-bw-maroon uppercase tracking-widest hover-underline pb-1">Discover Dining</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="relative py-40 parallax-bg" style="background-image: url('images/roof-top-pool-area.jpg');">
+        <div class="absolute inset-0 bg-black/60 z-0"></div>
+        <div class="relative z-10 max-w-4xl mx-auto px-4 text-center text-white">
+            <h2 class="text-4xl md:text-5xl font-bold mb-6 font-playfair">Experience The Vibe</h2>
+            <p class="text-lg font-light mb-10 max-w-2xl mx-auto opacity-90">Step into a world of curated elegance. From the rooftop pool to our intimate dining spaces, take a glimpse into life at the Meridian.</p>
+            
+            <button onclick="openVideoModal()" class="w-20 h-20 rounded-full border-2 border-white flex items-center justify-center mx-auto hover:bg-white hover:text-gray-900 transition-all duration-400 group cursor-pointer" aria-label="Play Hotel Tour Video">
+                <svg class="w-8 h-8 ml-1 text-white group-hover:text-gray-900 transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>
+            </button>
+            
+            <p class="text-[10px] uppercase tracking-[0.3em] font-bold mt-6">Watch Hotel Tour</p>
+        </div>
+    </section>
+
+    <section class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <h4 class="text-bw-maroon text-[10px] font-bold uppercase tracking-[0.3em] mb-4">Gallery</h4>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4 section-accent">Moments at Meridian</h2>
+            </div>
+            
+            <div class="masonry-grid">
+                <div class="bg-gray-200 overflow-hidden relative group col-span-1 row-span-1 lg:col-span-2 lg:row-span-2">
+                    <img src="IMAGES!/dining/timeout bar.jpg" alt="Signature cocktails at the Timeout Bar" class="w-full h-full object-cover img-zoom">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center"><span class="text-white text-xs uppercase tracking-widest font-bold">Timeout Bar</span></div>
+                </div>
+                <div class="bg-gray-200 overflow-hidden relative group">
+                    <img src="IMAGES!/dining/icecream.jpg" alt="Gourmet ice cream dessert presentation" class="w-full h-full object-cover img-zoom">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center"><span class="text-white text-xs uppercase tracking-widest font-bold">Culinary Presentation</span></div>
+                </div>
+                <div class="bg-gray-200 overflow-hidden relative group">
+                    <img src="IMAGES!/dining/meridian-hotel (1).jpg" alt="Elegant culinary dish presentation" class="w-full h-full object-cover img-zoom">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center"><span class="text-white text-xs uppercase tracking-widest font-bold">Culinary Presentation</span></div>
+                </div>
+                <div class="bg-gray-200 overflow-hidden relative group">
+                    <img src="IMAGES!/amenities/GYM2.jpeg" alt="Modern fitness center equipment" class="w-full h-full object-cover img-zoom">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center"><span class="text-white text-xs uppercase tracking-widest font-bold">Spa and Wellness</span></div>
+                </div>
+                 <div class="bg-gray-200 overflow-hidden relative group">
+                    <img src="IMAGES!/amenities/GYM1.jpeg" alt="Fully equipped hotel gym" class="w-full h-full object-cover img-zoom">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center"><span class="text-white text-xs uppercase tracking-widest font-bold">Spa and Wellness</span></div>
+                </div>
+                <div class="bg-gray-200 overflow-hidden relative group col-span-1 lg:col-span-2">
+                    <img src="IMAGES!/conference/boardroom.jpg" alt="Executive meeting space and boardroom" class="w-full h-full object-cover img-zoom">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center"><span class="text-white text-xs uppercase tracking-widest font-bold">Executive Meeting Space</span></div>
+                </div>
+                <div class="bg-gray-200 overflow-hidden relative group col-span-1 lg:col-span-2">
+                    <img src="IMAGES!/conference/boardroom2.jpg" alt="Corporate boardroom setup" class="w-full h-full object-cover img-zoom">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center"><span class="text-white text-xs uppercase tracking-widest font-bold">Executive Meeting Space</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 bg-gray-50 border-t border-gray-100">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4 section-accent">Exclusive Offers</h2>
+                <p class="text-gray-500 max-w-2xl mx-auto mt-6 text-sm leading-relaxed">Take advantage of our direct booking packages tailored for both business productivity and weekend relaxation.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white border border-gray-100 shadow-sm flex flex-col group relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-bw-maroon transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500"></div>
+                    <div class="h-48 bg-gray-200 overflow-hidden">
+                        <img src="images/offer1.jpg" alt="Weekend Staycation package" class="w-full h-full object-cover img-zoom">
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h4 class="text-lg font-bold text-gray-900 mb-2">Weekend Staycation</h4>
+                        <p class="text-gray-500 text-xs leading-relaxed mb-6 flex-grow">Enjoy 15% off weekend stays when you book directly. Includes complimentary late check-out and breakfast for two.</p>
+                        <a href="#booking" class="text-[10px] font-bold uppercase tracking-widest text-bw-maroon hover-underline w-fit">Book Offer</a>
+                    </div>
+                </div>
+                <div class="bg-white border border-gray-100 shadow-sm flex flex-col group relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-bw-maroon transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500"></div>
+                    <div class="h-48 bg-gray-200 overflow-hidden">
+                        <img src="images/offer2.jpg" alt="Corporate Executive package" class="w-full h-full object-cover img-zoom">
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h4 class="text-lg font-bold text-gray-900 mb-2">Corporate Executive</h4>
+                        <p class="text-gray-500 text-xs leading-relaxed mb-6 flex-grow">Designed for the business traveler. Includes premium Wi-Fi, daily pressing of 2 garments, and access to the executive lounge.</p>
+                        <a href="#booking" class="text-[10px] font-bold uppercase tracking-widest text-bw-maroon hover-underline w-fit">Book Offer</a>
+                    </div>
+                </div>
+                <div class="bg-white border border-gray-100 shadow-sm flex flex-col group relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-bw-maroon transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500"></div>
+                    <div class="h-48 bg-gray-200 overflow-hidden">
+                        <img src="images/offer3.jpg" alt="Advance Purchase package" class="w-full h-full object-cover img-zoom">
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h4 class="text-lg font-bold text-gray-900 mb-2">Advance Purchase</h4>
+                        <p class="text-gray-500 text-xs leading-relaxed mb-6 flex-grow">Plan ahead and save. Book your stay 14 days in advance to receive up to 20% off our Best Available Rate.</p>
+                        <a href="#booking" class="text-[10px] font-bold uppercase tracking-widest text-bw-maroon hover-underline w-fit">Book Offer</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 bg-white border-t border-gray-100">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <h4 class="text-bw-maroon text-[10px] font-bold uppercase tracking-[0.3em] mb-4">Social Proof</h4>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4 section-accent">Guest Experiences</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-gray-50 p-8 border border-gray-100 shadow-sm rounded-sm">
+                    <div class="flex text-yellow-400 mb-4 text-lg">★★★★★</div>
+                    <p class="text-gray-600 text-sm italic mb-6 leading-relaxed">"An absolute gem in the CBD. The soundproofing is no joke—I slept perfectly despite being in the middle of the city. The breakfast buffet was exceptional and the staff were incredibly attentive."</p>
+                    <p class="text-gray-900 font-bold text-[10px] uppercase tracking-widest">— Corporate Traveler, UK</p>
+                </div>
+                <div class="bg-gray-50 p-8 border border-gray-100 shadow-sm rounded-sm">
+                    <div class="flex text-yellow-400 mb-4 text-lg">★★★★★</div>
+                    <p class="text-gray-600 text-sm italic mb-6 leading-relaxed">"We hosted our 3-day regional summit at the Khyber Hall. The I.T. support team was on point, the Wi-Fi never dropped, and the catering team delivered a flawless Gala dinner. Highly recommended."</p>
+                    <p class="text-gray-900 font-bold text-[10px] uppercase tracking-widest">— Event Coordinator, Kenya</p>
+                </div>
+                <div class="bg-gray-50 p-8 border border-gray-100 shadow-sm rounded-sm">
+                    <div class="flex text-yellow-400 mb-4 text-lg">★★★★★</div>
+                    <p class="text-gray-600 text-sm italic mb-6 leading-relaxed">"Loved unwinding at the rooftop pool after a long day of meetings. The rooms are spotless, modern, and the 24-hour room service is a lifesaver. Will definitely be returning on my next trip."</p>
+                    <p class="text-gray-900 font-bold text-[10px] uppercase tracking-widest">— Leisure Guest, South Africa</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="booking" class="py-24 bg-bw-maroon text-white relative">
+        <div class="max-w-5xl mx-auto px-4 text-center">
+            <h2 class="text-4xl md:text-6xl font-bold mb-10 leading-tight font-playfair">Reserve Your Stay</h2>
+            <p class="text-gray-300 text-lg mb-16 font-light italic">Best Rates Guaranteed on Our Official Site.</p>
+            
+            <form id="resForm" class="bg-white p-8 md:p-12 rounded-sm shadow-2xl flex flex-col md:flex-row gap-6 items-end">
+                <div class="w-full text-left">
+                    <label for="arrival-date" class="text-[9px] font-black text-gray-400 uppercase tracking-[0.3em] mb-3 block">Arrival</label>
+                    <input id="arrival-date" name="checkInDate" type="date" class="w-full border-b border-gray-100 p-3 text-sm text-gray-800 focus:border-bw-maroon outline-none bg-transparent">
+                </div>
+                <div class="w-full text-left">
+                    <label for="departure-date" class="text-[9px] font-black text-gray-400 uppercase tracking-[0.3em] mb-3 block">Departure</label>
+                    <input id="departure-date" name="checkOutDate" type="date" class="w-full border-b border-gray-100 p-3 text-sm text-gray-800 focus:border-bw-maroon outline-none bg-transparent">
+                </div>
+                <div class="w-full">
+                    <button type="submit" class="w-full btn-maroon py-4 font-black text-[10px]">CHECK AVAILABILITY</button>
+                </div>
+            </form>
+            <div id="msgBox" class="mt-10 font-bold text-white text-[10px] tracking-[0.5em] uppercase hidden animate-pulse">Accessing Reservation Hub...</div>
+        </div>
+    </section>
+
+    <footer class="bg-[#f4f5f7] text-gray-800 pt-16 pb-10 border-t border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16 items-start">
+                
+                <div class="space-y-6">
+                    <a href="index.html" class="block">
+                        <img src="images/LOGO.PNG" alt="Best Western Plus Meridian Hotel Logo" class="h-14 w-auto object-contain">
+                    </a>
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                        Premium business and leisure accommodation in the heart of Nairobi CBD. Experience unparalleled hospitality.
+                    </p>
+                    
+                    <div class="flex space-x-3 pt-2">
+                        <a href="https://www.facebook.com/people/Best-Western-Plus-Meridian-Hotel-CBD-Nairobi/61572953589004/#" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-full bg-white flex items-center justify-center text-gray-600 hover:bg-[#85042d] hover:text-white transition-all shadow-sm" aria-label="Facebook">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" /></svg>
+                        </a>
+                        <a href="https://www.instagram.com/bestwesternplus_meridian?igsh=MTMxcjlkc2Jhc29iOA==" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-full bg-white flex items-center justify-center text-gray-600 hover:bg-[#85042d] hover:text-white transition-all shadow-sm" aria-label="Instagram">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.024.047-1.379.06-3.808.06-2.43 0-2.784-.013-3.808-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.476 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clip-rule="evenodd" /></svg>
+                        </a>
+                        <a href="https://www.linkedin.com/company/best-western-plus-meridian-hotel/" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-full bg-white flex items-center justify-center text-gray-600 hover:bg-[#85042d] hover:text-white transition-all shadow-sm" aria-label="LinkedIn">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.25V10.9H6.46M7.86 6.18a1.6 1.6 0 0 0-1.6 1.6 1.6 1.6 0 0 0 1.6 1.6 1.6 1.6 0 0 0 1.6-1.6 1.6 1.6 0 0 0-1.6-1.6Z"/></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-gray-900 uppercase tracking-[0.2em] text-xs mb-6">Discover</h4>
+                    <ul class="space-y-3 text-sm text-gray-600 font-medium">
+                        <li><a href="rooms.html" class="hover:text-[#85042d] transition-colors duration-150">Rooms & Suites</a></li>
+                        <li><a href="dining.html" class="hover:text-[#85042d] transition-colors duration-150">Dining Experience</a></li>
+                        <li><a href="meetings.html" class="hover:text-[#85042d] transition-colors duration-150">Conferencing</a></li>
+                        <li><a href="amenities.html" class="hover:text-[#85042d] transition-colors duration-150">Wellness & Pool</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-gray-900 uppercase tracking-[0.2em] text-xs mb-6">Company</h4>
+                    <ul class="space-y-3 text-sm text-gray-600 font-medium">
+                        <li><a href="faq.html" class="hover:text-[#85042d] transition-colors duration-150">Guest FAQ</a></li>
+                        <li><a href="terms.html" class="hover:text-[#85042d] transition-colors duration-150">Terms of Service</a></li>
+                        <li><a href="privacy.html" class="hover:text-[#85042d] transition-colors duration-150">Privacy Policy</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-gray-900 uppercase tracking-[0.2em] text-xs mb-6">Contact Us</h4>
+                    <ul class="space-y-3 text-sm text-gray-600">
+                        <li class="flex items-start">
+                            <span class="text-[#85042d] mr-3 font-bold">📍</span>
+                            <span>6th Murang'a Road, Off Moi Ave<br>Nairobi CBD, Kenya</span>
+                        </li>
+                        <li class="flex items-center mt-2">
+                            <span class="text-[#85042d] mr-3 font-bold">📞</span>
+                            <span>+254 798 492 352</span>
+                        </li>
+                        <li class="flex items-center mt-2">
+                            <span class="text-[#85042d] mr-3 font-bold">✉️</span>
+                            <a href="mailto:reservation@bwplusmeridian.com" class="hover:text-[#85042d] font-semibold transition-colors duration-150">reservation@bwplusmeridian.com</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-200 pt-8 flex flex-col md:flex-row justify-between items-center text-[10px] text-gray-400 font-bold uppercase tracking-widest">
+                <p class="mb-4 md:mb-0">© 2026 Best Western Plus Meridian Hotel. All Rights Reserved.</p>
+                <p>Designed in Nairobi</p>
+            </div>
+        </div>
+    </footer>
+
+    <div id="infoModal" class="fixed inset-0 bg-black/60 hidden z-[100] flex items-center justify-center p-4 backdrop-blur-sm opacity-0 transition-opacity duration-300">
+        <div class="bg-white max-w-lg w-full rounded-sm shadow-2xl border border-gray-100 p-8 relative transform scale-95 transition-transform duration-300">
+            <button onclick="closeInfoModal()" class="absolute top-4 right-4 text-gray-400 hover:text-bw-maroon font-bold text-sm tracking-widest uppercase">× Close</button>
+            <h4 id="modalTitle" class="text-bw-maroon font-bold text-lg uppercase tracking-wider mb-4 pb-2 border-b"></h4>
+            <div id="modalBody" class="text-gray-600 text-xs leading-relaxed space-y-3"></div>
+        </div>
+    </div>
+
+    <div id="videoModal" class="fixed inset-0 bg-black/90 hidden z-[100] flex items-center justify-center p-4 backdrop-blur-sm opacity-0 transition-opacity duration-300">
+        <div class="relative w-full max-w-4xl aspect-video transform scale-95 transition-transform duration-300 rounded-sm overflow-hidden shadow-2xl">
+            <button onclick="closeVideoModal()" aria-label="Close Video" class="absolute -top-10 right-0 text-white/70 hover:text-white font-bold text-4xl leading-none transition-colors">×</button>
+            <iframe id="tourVideo" class="w-full h-full" src="" title="Hotel Tour" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <a href="https://wa.me/254798492352" target="_blank" rel="noopener noreferrer" class="fixed bottom-6 right-6 z-[90] bg-[#25D366] text-white p-4 rounded-full shadow-2xl hover:scale-110 hover:shadow-[#25D366]/50 transition-all duration-300 group flex items-center justify-center" aria-label="Chat on WhatsApp">
+        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 0C5.385 0 0 5.385 0 12.031c0 2.115.548 4.183 1.594 5.998L.15 23.513l5.656-1.485c1.745.965 3.737 1.474 5.805 1.474 6.646 0 12.031-5.385 12.031-12.031S18.677 0 12.031 0zm3.87 17.202c-.58.847-1.895 1.258-2.671 1.258-.776 0-3.351-.836-5.836-3.321-2.485-2.485-3.321-5.06-3.321-5.836 0-.776.411-2.091 1.258-2.671.218-.145.49-.242.763-.242.272 0 .545 0 .763.145.436.871.98 2.057 1.053 2.239.073.181.109.399.036.545-.073.145-.145.218-.29.399-.145.181-.29.363-.399.508-.109.145-.254.29-.073.545.181.254 1.162 1.888 2.578 3.05 1.162.944 1.888 1.162 2.142 1.271.254.109.436.073.617-.145.181-.218.726-.871.871-1.162.145-.29.363-.218.617-.145.254.073 1.598.763 1.888.871.29.109.508.181.58.29.073.109.073.617-.218 1.452z"></path></svg>
+    </a>
+
+    <script>
+        // Hero Slideshow Logic
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.slide-dot');
+        let currentSlide = 0;
+
+        function goToSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            if(dots.length > 0) {
+                dots[currentSlide].classList.replace('bg-white', 'bg-white/30');
+            }
+            
+            currentSlide = (n + slides.length) % slides.length;
+            
+            slides[currentSlide].classList.add('active');
+            if(dots.length > 0) {
+                dots[currentSlide].classList.replace('bg-white/30', 'bg-white');
+            }
+        }
+
+        function autoSlide() {
+            goToSlide(currentSlide + 1);
+        }
+
+        if(slides.length > 1) {
+            setInterval(autoSlide, 6000);
+        }
+
+        // Mobile Menu Logic
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const closeMenuBtn = document.getElementById('closeMenuBtn');
+        const mobileOverlay = document.getElementById('mobileOverlay');
+
+        function toggleMobileMenu() {
+            if (mobileOverlay.classList.contains('opacity-0')) {
+                // Open menu
+                mobileOverlay.classList.remove('opacity-0', 'pointer-events-none');
+                document.body.style.overflow = 'hidden'; // Prevent scrolling while menu is open
+            } else {
+                // Close menu
+                mobileOverlay.classList.add('opacity-0', 'pointer-events-none');
+                document.body.style.overflow = '';
+            }
+        }
+
+        if(mobileMenuBtn && closeMenuBtn && mobileOverlay) {
+            mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+            closeMenuBtn.addEventListener('click', toggleMobileMenu);
+        }
+
+        // Form Submission Logic
+        const form = document.getElementById('resForm');
+        const msgBox = document.getElementById('msgBox');
+        const navbar = document.getElementById('navbar');
+        const navContainer = document.getElementById('nav-container');
+
+        if(form) {
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                let rawArrival = document.getElementById('arrival-date').value || (document.getElementById('hero-arrival') ? document.getElementById('hero-arrival').value : null);
+                let rawDeparture = document.getElementById('departure-date').value || (document.getElementById('hero-departure') ? document.getElementById('hero-departure').value : null);
+                
+                msgBox.textContent = "Accessing Secure Reservation Hub...";
+                msgBox.classList.remove('hidden');
+                
+                let bookingUrl = "https://www.bestwestern.com/en_US/book/nairobi/hotel-rooms/best-western-plus-meridian-hotel/propertyCode.75152.html";
+                
+                if (rawArrival && rawDeparture) {
+                    const formatArrival = rawArrival.replace(/^(\d{4})-(\d{2})-(\d{2})$/, '$2/$3/$1');
+                    const formatDeparture = rawDeparture.replace(/^(\d{4})-(\d{2})-(\d{2})$/, '$2/$3/$1');
+                    bookingUrl += `?checkInDate=${formatArrival}&checkOutDate=${formatDeparture}`;
+                }
+                
+                setTimeout(() => { 
+                    window.open(bookingUrl, '_blank');
+                    msgBox.classList.add('hidden'); 
+                }, 1200);
+            });
+        }
+
+        // Sticky Nav Logic
+        window.addEventListener('scroll', () => {
+            const navGradient = document.getElementById('nav-gradient');
+            const separators = document.querySelectorAll('.nav-separator');
+            
+            if (window.scrollY > 100) {
+                navbar.classList.add('nav-scrolled');
+                navbar.classList.remove('nav-transparent');
+                navContainer.classList.replace('h-24', 'h-20');
+                if(navGradient) navGradient.style.opacity = '0';
+                separators.forEach(sep => sep.classList.replace('text-white/30', 'text-gray-300'));
+            } else {
+                navbar.classList.remove('nav-scrolled');
+                navbar.classList.add('nav-transparent');
+                navContainer.classList.replace('h-20', 'h-24');
+                if(navGradient) navGradient.style.opacity = '1';
+                separators.forEach(sep => sep.classList.replace('text-gray-300', 'text-white/30'));
+            }
+        });
+
+        // Modal Content Data
+        const modalData = {
+            currency: {
+                title: "Currency Exchange Services",
+                body: "<p>For our international corporate executives and global leisure guests, the front desk provides 24/7 secure foreign currency liquidation processing.</p><p>We offer competitive market conversion rates matching local banking baselines for USD, EUR, GBP, and major regional African currencies directly within the secure perimeter of the lobby desk.</p>"
+            },
+            loyalty: {
+                title: "Best Western Rewards®",
+                body: "<p>As part of our global alliance network, stays at the Meridian property let you stack points natively into the Best Western Rewards® program framework.</p><p>Points earned never expire and can be redeemed globally for complementary nights, room upgrades, or exclusive brand partner gift certificates. Inquire with our desk upon arrival to link your account instantly.</p>"
+            },
+            story: {
+                title: "Our Story",
+                body: "<p>Standing proud as a landmark icon within the central business district on Murang'a Road, the Best Western Plus Meridian Hotel blends international luxury metrics with authentic Kenyan hospitality values.</p><p>Over the years, we have served as the premier core hub for business executives, non-governmental delegations, and leisure travelers searching for soundproofed luxury retreats right in the beating heart of the city.</p>"
+            },
+            sustainability: {
+                title: "Sustainability Framework",
+                body: "<p>We are fully committed to decreasing our architectural footprint in Nairobi County through strict, green infrastructure operations.</p><p>Our structural mechanics utilize smart climate automated lighting, efficient solar rooftop water boilers, and a complete plastic liquidation workflow to support urban preservation initiatives across East Africa.</p>"
+            },
+            terms: {
+                title: "Terms of Service & Policies",
+                body: "<p><strong>Check-in/out:</strong> Initial property access clears starting from 12:00 PM. Room release must conclude by 10:00 AM.</p><p><strong>Guarantee Policy:</strong> All active itineraries must be backed by an approved credit profile or matching liquidity hold upon initial desk intake clearance.</p><p><strong>Cancellation:</strong> Itinerary adjustments must resolve 24 hours prior to standard check-in milestones to clear standard resource constraints completely.</p>"
+            }
+        };
+
+        function openInfoModal(key) {
+            const modal = document.getElementById('infoModal');
+            const data = modalData[key];
+            if (!data) return;
+
+            document.getElementById('modalTitle').textContent = data.title;
+            document.getElementById('modalBody').innerHTML = data.body;
+
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modal.querySelector('div').classList.remove('scale-95');
+            }, 10);
+        }
+
+        function closeInfoModal() {
+            const modal = document.getElementById('infoModal');
+            modal.classList.add('opacity-0');
+            modal.querySelector('div').classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        // Close Info Modal on Background Click
+        document.getElementById('infoModal').addEventListener('click', function(e) {
+            if (e.target === this) closeInfoModal();
+        });
+
+        // Video Modal Logic
+        function openVideoModal() {
+            const modal = document.getElementById('videoModal');
+            const iframe = document.getElementById('tourVideo');
+            
+            // NOTE: Replace this src with your actual YouTube or Vimeo embed link!
+            // I added ?autoplay=1 so it starts automatically when opened.
+            iframe.src = "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1"; 
+            
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modal.querySelector('div').classList.remove('scale-95');
+            }, 10);
+        }
+
+        function closeVideoModal() {
+            const modal = document.getElementById('videoModal');
+            const iframe = document.getElementById('tourVideo');
+            
+            modal.classList.add('opacity-0');
+            modal.querySelector('div').classList.add('scale-95');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                iframe.src = ""; // Clears the source so the video stops playing in the background
+            }, 300);
+        }
+
+        // Close Video Modal on Background Click
+        document.getElementById('videoModal').addEventListener('click', function(e) {
+            if (e.target === this) closeVideoModal();
+        });
+
+        // Anti-Copy Logic
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+    </script>
+</body>
+</html>

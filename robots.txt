@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Keep legal and utility pages out of search results
+Disallow: /terms.html
+Disallow: /privacy.html
+
+# Point Google directly to the sitemap
+Sitemap: https://www.bwplusmeridian.com/sitemap.xml
